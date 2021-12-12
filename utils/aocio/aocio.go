@@ -1,10 +1,11 @@
-package aocio 
+package aocio
 
 import (
 	"os"
 	"bufio"
 	"strings"
 	"strconv"
+	"io/ioutil"
 )
 
 func panic_on_err(err error) {
@@ -13,8 +14,21 @@ func panic_on_err(err error) {
 	}
 }
 
+func InputToIntArr(input string) []int {
+	var arr = strings.Split(strings.ReplaceAll(input, "\r\n", "\n"), "\n")
+	var res = []int{}
+
+	for _, i := range arr {
+		j, err := strconv.Atoi(i)
+		panic_on_err(err)
+		res = append(res, j)
+	}
+
+	return res
+}
+
 // Like strconv.Atoi but returns a default value on error
-func atoi(s string, fallback int) int {
+func Atoi(s string, fallback int) int {
 	v, err := strconv.Atoi(s)
 	if err != nil {
 		return fallback
@@ -22,7 +36,7 @@ func atoi(s string, fallback int) int {
 	return v
 }
 
-func read_file(file_path string) string {
+func ReadFile(file_path string) string {
 	file, err := os.Open(file_path)
 	panic_on_err(err)
 	defer file.Close()
